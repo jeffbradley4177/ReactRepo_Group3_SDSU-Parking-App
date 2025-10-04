@@ -1,10 +1,56 @@
 import Image from "next/image";
+import { createClient } from '@/lib/supabase/server-client';
+import RealtimeParkingLots from './realtime-parking-lots'; // Import your new component
 
-export default function Home() {
+// This function ONLY fetches and returns the data array
+async function getInitialParkingLots() {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("ParkingLots").select();
+    if (error) {
+        console.error("Error fetching parking lots:", error);
+    }
+    return data ?? []; // Return the data array (or an empty one)
+}
+
+// This new component receives the data and renders it as a table
+function ParkingLotsTable({ parkingLots }: { parkingLots: any[] }) {
+    if (!parkingLots || parkingLots.length === 0) {
+        return <p>No parking lot data available.</p>;
+    }
+    return (
+        <table style={{ width: '100%', borderCollapse: 'collapse', color: 'white' }}>
+            <thead>
+            <tr>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Lot Name</th>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Total Spaces</th>
+                <th style={{ border: '1px solid white', padding: '8px' }}>Taken Spaces</th>
+            </tr>
+            </thead>
+            <tbody>
+            {parkingLots.map((lot) => (
+                <tr key={lot.Index}>
+                    <td style={{ border: '1px solid white', padding: '8px' }}>{lot.LotNumber}</td>
+                    <td style={{ border: '1px solid white', padding: '8px' }}>{lot.TotalSpaces}</td>
+                    <td style={{ border: '1px solid white', padding: '8px' }}>{lot.TakenSpaces}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+    );
+}
+
+export default async function Home() {
+    // Fetch the raw data array on the server
+    const initialParkingLots = await getInitialParkingLots();
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
+
+          {/* Render the realtime component with the initial server data */}
+          <RealtimeParkingLots serverData={initialParkingLots} />
+
+          <Image
           className="dark:invert"
           src="/next.svg"
           alt="Next.js logo"

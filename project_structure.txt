@@ -18679,7 +18679,7 @@ shim.js.map
 
 ./node_modules/next/dist/build/segment-config:
 app
-middleware
+appMiddleware
 pages
 
 ./node_modules/next/dist/build/segment-config/app:
@@ -18693,10 +18693,10 @@ collect-root-param-keys.d.ts
 collect-root-param-keys.js
 collect-root-param-keys.js.map
 
-./node_modules/next/dist/build/segment-config/middleware:
-middleware-config.d.ts
-middleware-config.js
-middleware-config.js.map
+./node_modules/next/dist/build/segment-config/appMiddleware:
+appMiddleware-config.d.ts
+appMiddleware-config.js
+appMiddleware-config.js.map
 
 ./node_modules/next/dist/build/segment-config/pages:
 pages-segment-config.d.ts
@@ -18755,9 +18755,9 @@ edge-ssr.js.map
 helpers.d.ts
 helpers.js
 helpers.js.map
-middleware.d.ts
-middleware.js
-middleware.js.map
+appMiddleware.d.ts
+appMiddleware.js
+appMiddleware.js.map
 pages-api.d.ts
 pages-api.js
 pages-api.js.map
@@ -18938,15 +18938,15 @@ next-metadata-image-loader.js.map
 next-metadata-route-loader.d.ts
 next-metadata-route-loader.js
 next-metadata-route-loader.js.map
-next-middleware-asset-loader.d.ts
-next-middleware-asset-loader.js
-next-middleware-asset-loader.js.map
-next-middleware-loader.d.ts
-next-middleware-loader.js
-next-middleware-loader.js.map
-next-middleware-wasm-loader.d.ts
-next-middleware-wasm-loader.js
-next-middleware-wasm-loader.js.map
+next-appMiddleware-asset-loader.d.ts
+next-appMiddleware-asset-loader.js
+next-appMiddleware-asset-loader.js.map
+next-appMiddleware-loader.d.ts
+next-appMiddleware-loader.js
+next-appMiddleware-loader.js.map
+next-appMiddleware-wasm-loader.d.ts
+next-appMiddleware-wasm-loader.js
+next-appMiddleware-wasm-loader.js.map
 next-root-params-loader.d.ts
 next-root-params-loader.js
 next-root-params-loader.js.map
@@ -19190,9 +19190,9 @@ jsconfig-paths-plugin.js.map
 memory-with-gc-cache-plugin.d.ts
 memory-with-gc-cache-plugin.js
 memory-with-gc-cache-plugin.js.map
-middleware-plugin.d.ts
-middleware-plugin.js
-middleware-plugin.js.map
+appMiddleware-plugin.d.ts
+appMiddleware-plugin.js
+appMiddleware-plugin.js.map
 mini-css-extract-plugin.d.ts
 mini-css-extract-plugin.js
 mini-css-extract-plugin.js.map
@@ -19835,9 +19835,9 @@ error-overlay
 fouc.d.ts
 fouc.js
 fouc.js.map
-hot-middleware-client.d.ts
-hot-middleware-client.js
-hot-middleware-client.js.map
+hot-appMiddleware-client.d.ts
+hot-appMiddleware-client.js
+hot-appMiddleware-client.js.map
 hot-reloader
 noop-turbopack-hmr.d.ts
 noop-turbopack-hmr.js
@@ -21849,7 +21849,7 @@ shim.js.map
 
 ./node_modules/next/dist/esm/build/segment-config:
 app
-middleware
+appMiddleware
 pages
 
 ./node_modules/next/dist/esm/build/segment-config/app:
@@ -21860,9 +21860,9 @@ app-segments.js.map
 collect-root-param-keys.js
 collect-root-param-keys.js.map
 
-./node_modules/next/dist/esm/build/segment-config/middleware:
-middleware-config.js
-middleware-config.js.map
+./node_modules/next/dist/esm/build/segment-config/appMiddleware:
+appMiddleware-config.js
+appMiddleware-config.js.map
 
 ./node_modules/next/dist/esm/build/segment-config/pages:
 pages-segment-config.js
@@ -21905,8 +21905,8 @@ edge-ssr.js
 edge-ssr.js.map
 helpers.js
 helpers.js.map
-middleware.js
-middleware.js.map
+appMiddleware.js
+appMiddleware.js.map
 pages-api.js
 pages-api.js.map
 pages-edge-api.js
@@ -22041,12 +22041,12 @@ next-metadata-image-loader.js
 next-metadata-image-loader.js.map
 next-metadata-route-loader.js
 next-metadata-route-loader.js.map
-next-middleware-asset-loader.js
-next-middleware-asset-loader.js.map
-next-middleware-loader.js
-next-middleware-loader.js.map
-next-middleware-wasm-loader.js
-next-middleware-wasm-loader.js.map
+next-appMiddleware-asset-loader.js
+next-appMiddleware-asset-loader.js.map
+next-appMiddleware-loader.js
+next-appMiddleware-loader.js.map
+next-appMiddleware-wasm-loader.js
+next-appMiddleware-wasm-loader.js.map
 next-root-params-loader.js
 next-root-params-loader.js.map
 next-route-loader
@@ -22228,8 +22228,8 @@ jsconfig-paths-plugin.js
 jsconfig-paths-plugin.js.map
 memory-with-gc-cache-plugin.js
 memory-with-gc-cache-plugin.js.map
-middleware-plugin.js
-middleware-plugin.js.map
+appMiddleware-plugin.js
+appMiddleware-plugin.js.map
 mini-css-extract-plugin.js
 mini-css-extract-plugin.js.map
 minify-webpack-plugin
@@ -22656,8 +22656,8 @@ amp-dev.js.map
 error-overlay
 fouc.js
 fouc.js.map
-hot-middleware-client.js
-hot-middleware-client.js.map
+hot-appMiddleware-client.js
+hot-appMiddleware-client.js.map
 hot-reloader
 noop-turbopack-hmr.js
 noop-turbopack-hmr.js.map
@@ -23065,19 +23065,19 @@ shared
 userspace
 
 ./node_modules/next/dist/esm/next-devtools/server:
-dev-indicator-middleware.js
-dev-indicator-middleware.js.map
-devtools-config-middleware.js
-devtools-config-middleware.js.map
+dev-indicator-appMiddleware.js
+dev-indicator-appMiddleware.js.map
+devtools-config-appMiddleware.js
+devtools-config-appMiddleware.js.map
 font
-get-next-error-feedback-middleware.js
-get-next-error-feedback-middleware.js.map
+get-next-error-feedback-appMiddleware.js
+get-next-error-feedback-appMiddleware.js.map
 launch-editor.js
 launch-editor.js.map
-middleware-response.js
-middleware-response.js.map
-restart-dev-server-middleware.js
-restart-dev-server-middleware.js.map
+appMiddleware-response.js
+appMiddleware-response.js.map
+restart-dev-server-appMiddleware.js
+restart-dev-server-appMiddleware.js.map
 shared.js
 shared.js.map
 
@@ -23086,8 +23086,8 @@ geist-latin-ext.woff2
 geist-latin.woff2
 geist-mono-latin-ext.woff2
 geist-mono-latin.woff2
-get-dev-overlay-font-middleware.js
-get-dev-overlay-font-middleware.js.map
+get-dev-overlay-font-appMiddleware.js
+get-dev-overlay-font-appMiddleware.js.map
 
 ./node_modules/next/dist/esm/next-devtools/shared:
 console-error.js
@@ -23477,8 +23477,8 @@ dev-indicator-server-state.js
 dev-indicator-server-state.js.map
 get-source-map-from-file.js
 get-source-map-from-file.js.map
-hot-middleware.js
-hot-middleware.js.map
+hot-appMiddleware.js
+hot-appMiddleware.js.map
 hot-reloader-turbopack.js
 hot-reloader-turbopack.js.map
 hot-reloader-types.js
@@ -23489,10 +23489,10 @@ log-requests.js
 log-requests.js.map
 messages.js
 messages.js.map
-middleware-turbopack.js
-middleware-turbopack.js.map
-middleware-webpack.js
-middleware-webpack.js.map
+appMiddleware-turbopack.js
+appMiddleware-turbopack.js.map
+appMiddleware-webpack.js
+appMiddleware-webpack.js.map
 next-dev-server.js
 next-dev-server.js.map
 node-stack-frames.js
@@ -24412,8 +24412,8 @@ is-dynamic.js
 is-dynamic.js.map
 is-local-url.js
 is-local-url.js.map
-middleware-route-matcher.js
-middleware-route-matcher.js.map
+appMiddleware-route-matcher.js
+appMiddleware-route-matcher.js.map
 omit.js
 omit.js.map
 parse-path.js
@@ -24489,9 +24489,9 @@ config-testing-utils.js.map
 index.d.ts
 index.js
 index.js.map
-middleware-testing-utils.d.ts
-middleware-testing-utils.js
-middleware-testing-utils.js.map
+appMiddleware-testing-utils.d.ts
+appMiddleware-testing-utils.js
+appMiddleware-testing-utils.js.map
 utils.d.ts
 utils.js
 utils.js.map
@@ -25289,25 +25289,25 @@ save-devtools-config.d.ts
 use-open-in-editor.d.ts
 
 ./node_modules/next/dist/next-devtools/server:
-dev-indicator-middleware.d.ts
-dev-indicator-middleware.js
-dev-indicator-middleware.js.map
-devtools-config-middleware.d.ts
-devtools-config-middleware.js
-devtools-config-middleware.js.map
+dev-indicator-appMiddleware.d.ts
+dev-indicator-appMiddleware.js
+dev-indicator-appMiddleware.js.map
+devtools-config-appMiddleware.d.ts
+devtools-config-appMiddleware.js
+devtools-config-appMiddleware.js.map
 font
-get-next-error-feedback-middleware.d.ts
-get-next-error-feedback-middleware.js
-get-next-error-feedback-middleware.js.map
+get-next-error-feedback-appMiddleware.d.ts
+get-next-error-feedback-appMiddleware.js
+get-next-error-feedback-appMiddleware.js.map
 launch-editor.d.ts
 launch-editor.js
 launch-editor.js.map
-middleware-response.d.ts
-middleware-response.js
-middleware-response.js.map
-restart-dev-server-middleware.d.ts
-restart-dev-server-middleware.js
-restart-dev-server-middleware.js.map
+appMiddleware-response.d.ts
+appMiddleware-response.js
+appMiddleware-response.js.map
+restart-dev-server-appMiddleware.d.ts
+restart-dev-server-appMiddleware.js
+restart-dev-server-appMiddleware.js.map
 shared.d.ts
 shared.js
 shared.js.map
@@ -25317,9 +25317,9 @@ geist-latin-ext.woff2
 geist-latin.woff2
 geist-mono-latin-ext.woff2
 geist-mono-latin.woff2
-get-dev-overlay-font-middleware.d.ts
-get-dev-overlay-font-middleware.js
-get-dev-overlay-font-middleware.js.map
+get-dev-overlay-font-appMiddleware.d.ts
+get-dev-overlay-font-appMiddleware.js
+get-dev-overlay-font-appMiddleware.js.map
 
 ./node_modules/next/dist/next-devtools/shared:
 console-error.d.ts
@@ -25870,9 +25870,9 @@ dev-indicator-server-state.js.map
 get-source-map-from-file.d.ts
 get-source-map-from-file.js
 get-source-map-from-file.js.map
-hot-middleware.d.ts
-hot-middleware.js
-hot-middleware.js.map
+hot-appMiddleware.d.ts
+hot-appMiddleware.js
+hot-appMiddleware.js.map
 hot-reloader-turbopack.d.ts
 hot-reloader-turbopack.js
 hot-reloader-turbopack.js.map
@@ -25888,12 +25888,12 @@ log-requests.js.map
 messages.d.ts
 messages.js
 messages.js.map
-middleware-turbopack.d.ts
-middleware-turbopack.js
-middleware-turbopack.js.map
-middleware-webpack.d.ts
-middleware-webpack.js
-middleware-webpack.js.map
+appMiddleware-turbopack.d.ts
+appMiddleware-turbopack.js
+appMiddleware-turbopack.js.map
+appMiddleware-webpack.d.ts
+appMiddleware-webpack.js
+appMiddleware-webpack.js.map
 next-dev-server.d.ts
 next-dev-server.js
 next-dev-server.js.map
@@ -27176,9 +27176,9 @@ is-dynamic.js.map
 is-local-url.d.ts
 is-local-url.js
 is-local-url.js.map
-middleware-route-matcher.d.ts
-middleware-route-matcher.js
-middleware-route-matcher.js.map
+appMiddleware-route-matcher.d.ts
+appMiddleware-route-matcher.js
+appMiddleware-route-matcher.js.map
 omit.d.ts
 omit.js
 omit.js.map
