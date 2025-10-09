@@ -12,9 +12,27 @@ const meta = {
     children: "Click me",
     variant: "primary",
     size: "default",
+    state: "default",
+    fullWidth: true,
+    isLoading: false,
   },
   argTypes: {
     onClick: { action: "clicked" },
+    variant: {
+      control: "select",
+      options: ["primary", "secondary", "outline", "distructive"],
+    },
+    size: {
+      control: "inline-radio",
+      options: ["default", "small"],
+    },
+    state: {
+      control: "inline-radio",
+      options: ["default", "pressed", "active"],
+    },
+    fullWidth: {
+      control: "boolean",
+    },
   },
 } satisfies Meta<typeof Button>;
 
@@ -30,13 +48,13 @@ export const Secondary: Story = {
   },
 };
 
-export const Tertiary: Story = {
+export const Outline: Story = {
   args: {
-    variant: "tertiary",
+    variant: "outline",
   },
 };
 
-export const Destructive: Story = {
+export const Distructive: Story = {
   args: {
     variant: "distructive",
     children: "Delete",
@@ -57,6 +75,18 @@ export const Disabled: Story = {
   },
 };
 
+export const Pressed: Story = {
+  args: {
+    state: "pressed",
+  },
+};
+
+export const Active: Story = {
+  args: {
+    state: "active",
+  },
+};
+
 export const Sizes: Story = {
   render: (args) => (
     <div className="flex items-center gap-3">
@@ -73,7 +103,20 @@ export const Sizes: Story = {
   },
   parameters: {
     controls: {
-      exclude: ["children"],
+      exclude: ["children", "state"],
+    },
+  },
+};
+
+export const InlineWidth: Story = {
+  name: "Inline Width",
+  args: {
+    fullWidth: false,
+    children: "Inline button",
+  },
+  parameters: {
+    controls: {
+      exclude: ["state"],
     },
   },
 };

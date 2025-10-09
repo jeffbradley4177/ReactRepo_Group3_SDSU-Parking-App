@@ -1,60 +1,162 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { ComponentTemplate } from "./ComponentTemplate";
+import { Badge, type BadgeProps } from "./Badge";
 
 const meta = {
-  title: "UI/Component Template",
-  component: ComponentTemplate,
+  title: "UI/Badge",
+  component: Badge,
   parameters: {
     layout: "centered",
-    docs: {
-      description: {
-        component:
-          "Starter card component wired with Tailwind classes. Copy and adapt this story when building new UI pieces.",
-      },
-    },
   },
   args: {
-    title: "Dashboard Snapshot",
-    description:
-      "This template gives you a styled shell. Replace the content and actions with domain-specific UI.",
+    children: "Badge",
+    variant: "primary",
   },
-} satisfies Meta<typeof ComponentTemplate>;
+  argTypes: {
+    variant: {
+      control: "select",
+      options: ["primary", "secondary", "success", "warning", "error"," alert", "info", "navy", "orange", "pink", "purple", "red", "sand", "teal", "neutral", "green", "indigo", "yellow"],
+    },
+    leading: {
+      control: false,
+    },
+  },
+} satisfies Meta<typeof Badge>;
 
 export default meta;
 
-type Story = StoryObj<typeof ComponentTemplate>;
+type Story = StoryObj<typeof Badge>;
 
-export const Default: Story = {};
+const Template = (args: BadgeProps) => <Badge {...args} />;
 
-export const WithContent: Story = {
+export const Primary: Story = {
+  render: Template,
+};
+
+export const Neutral: Story = {
+  render: Template,
   args: {
-    actions: (
-      <button
-        type="button"
-        className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-      >
-        Refresh
-      </button>
+    variant: "neutral",
+  },
+};
+
+export const Success: Story = {
+  render: Template,
+  args: {
+    variant: "success",
+  },
+};
+
+export const Warning: Story = {
+  render: Template,
+  args: {
+    variant: "warning",
+  },
+};
+
+export const Error: Story = {
+  render: Template,
+  args: {
+    variant: "error",
+  },
+};
+
+export const Alert: Story = {
+  render: Template,
+  args: {
+    variant: "alert",
+  },
+};
+
+export const Info: Story = {
+  render: Template,
+  args: {
+    variant: "info",
+  },
+};
+
+export const Navy: Story = {
+  render: Template,
+  args: {
+    variant: "navy",
+  },
+};
+
+export const Orange: Story = {
+  render: Template,
+  args: {
+    variant: "orange",
+  },
+};
+
+export const Pink: Story = {
+  render: Template,
+  args: {
+    variant: "pink",
+  },
+};
+
+export const Purple: Story = {
+  render: Template,
+  args: {
+    variant: "purple",
+  },
+};
+
+export const Red: Story = {
+  render: Template,
+  args: {
+    variant: "red",
+  },
+};
+
+export const Sand: Story = {
+  render: Template,
+  args: {
+    variant: "sand",
+  },
+};
+
+export const Teal: Story = {
+  render: Template,
+  args: {
+    variant: "teal",
+  },
+};
+
+export const Green: Story = {
+  render: Template,
+  args: {
+    variant: "green",
+  },
+};
+
+export const Indigo
+: Story = {
+  render: Template,
+  args: {
+    variant: "indigo",
+  },
+};
+
+export const Yellow: Story = {
+  render: Template,
+  args: {
+    variant: "yellow",
+  },
+};
+
+export const WithLeadingIcon: Story = {
+  render: Template,
+  args: {
+    leading: (
+      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
     ),
-    children: (
-      <ul className="space-y-2 text-left">
-        <li className="flex items-center justify-between rounded-md bg-slate-100 px-3 py-2 text-sm font-medium text-slate-700">
-          <span>Total lots monitored</span>
-          <span className="rounded-full bg-slate-900 px-2 py-0.5 text-xs font-semibold text-white">
-            12
-          </span>
-        </li>
-        <li className="flex items-center justify-between rounded-md bg-blue-100 px-3 py-2 text-sm font-medium text-blue-800">
-          <span>Open spaces</span>
-          <span>126</span>
-        </li>
-        <li className="flex items-center justify-between rounded-md bg-rose-100 px-3 py-2 text-sm font-medium text-rose-800">
-          <span>Alerts triggered</span>
-          <span>3</span>
-        </li>
-      </ul>
-    ),
-    className: "max-w-lg",
+    children: "Status",
+  },
+  parameters: {
+    controls: {
+      exclude: ["leading"],
+    },
   },
 };
