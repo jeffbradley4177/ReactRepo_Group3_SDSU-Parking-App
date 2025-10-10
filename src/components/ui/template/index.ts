@@ -1,2 +1,2 @@
-export { ComponentTemplate } from "./ComponentTemplate";
-export type { ComponentTemplateProps } from "./ComponentTemplate";
+export { ComponentTemplate } from './ComponentTemplate';
+export type { ComponentTemplateProps } from './ComponentTemplate';

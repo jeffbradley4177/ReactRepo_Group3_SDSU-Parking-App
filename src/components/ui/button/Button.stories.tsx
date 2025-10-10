@@ -1,122 +1,193 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Button, type ButtonSize, type ButtonState, type ButtonVariant } from './Button';
 
-import { Button } from "./Button";
+const VARIANT_OPTIONS: ButtonVariant[] = ['primary', 'secondary', 'outline', 'distructive'];
+const STATE_OPTIONS: ButtonState[] = ['default', 'pressed', 'active'];
+const SIZE_OPTIONS: ButtonSize[] = ['small', 'default'];
+
+const ArrowRightIcon = () => (
+  <svg
+    aria-hidden
+    className="h-4 w-4"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    viewBox="0 0 24 24"
+  >
+    <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const InfoIcon = () => (
+  <svg
+    aria-hidden
+    className="h-4 w-4"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M12 17v-4m0-4h.01M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Z"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 const meta = {
-  title: "UI/Button",
+  title: 'UI/Button',
   component: Button,
+  tags: ['autodocs'],
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
   args: {
-    children: "Click me",
-    variant: "primary",
-    size: "default",
-    state: "default",
+    children: 'Button',
+    variant: 'primary',
+    size: 'default',
+    state: 'default',
     fullWidth: true,
     isLoading: false,
+    disabled: false,
   },
   argTypes: {
-    onClick: { action: "clicked" },
+    onClick: { action: 'clicked' },
     variant: {
-      control: "select",
-      options: ["primary", "secondary", "outline", "distructive"],
+      control: { type: 'select' },
+      options: VARIANT_OPTIONS,
     },
     size: {
-      control: "inline-radio",
-      options: ["default", "small"],
+      control: { type: 'inline-radio' },
+      options: SIZE_OPTIONS,
     },
     state: {
-      control: "inline-radio",
-      options: ["default", "pressed", "active"],
+      control: { type: 'inline-radio' },
+      options: STATE_OPTIONS,
     },
     fullWidth: {
-      control: "boolean",
+      control: { type: 'boolean' },
+    },
+    isLoading: {
+      control: { type: 'boolean' },
+    },
+    leadingIcon: {
+      control: false,
+      table: { disable: true },
     },
   },
 } satisfies Meta<typeof Button>;
 
 export default meta;
 
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {};
+export const Default: Story = {};
 
-export const Secondary: Story = {
+export const WithLeadingIcon: Story = {
   args: {
-    variant: "secondary",
-  },
-};
-
-export const Outline: Story = {
-  args: {
-    variant: "outline",
-  },
-};
-
-export const Distructive: Story = {
-  args: {
-    variant: "distructive",
-    children: "Delete",
+    leadingIcon: <ArrowRightIcon />,
+    children: 'Continue',
   },
 };
 
 export const Loading: Story = {
   args: {
     isLoading: true,
-    children: "Loading state",
+    children: 'Loading state',
+  },
+  parameters: {
+    controls: { exclude: ['leadingIcon'] },
   },
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: "Disabled",
+    children: 'Disabled',
   },
 };
 
-export const Pressed: Story = {
+export const Informational: Story = {
   args: {
-    state: "pressed",
+    variant: 'outline',
+    leadingIcon: <InfoIcon />,
+    children: 'More details',
   },
 };
 
-export const Active: Story = {
+export const Variants: Story = {
   args: {
-    state: "active",
+    fullWidth: false,
+  },
+  render: (args) => (
+    <div className="flex flex-col gap-3">
+      {VARIANT_OPTIONS.map((variant) => (
+        <Button key={variant} {...args} variant={variant}>
+          {variant}
+        </Button>
+      ))}
+    </div>
+  ),
+  parameters: {
+    controls: { exclude: ['variant', 'leadingIcon', 'children'] },
+  },
+};
+
+export const States: Story = {
+  args: {
+    variant: 'secondary',
+    fullWidth: false,
+  },
+  render: (args) => (
+    <div className="flex items-center gap-3">
+      {STATE_OPTIONS.map((state) => (
+        <Button key={state} {...args} state={state}>
+          {state}
+        </Button>
+      ))}
+    </div>
+  ),
+  parameters: {
+    controls: { exclude: ['state', 'leadingIcon', 'children'] },
   },
 };
 
 export const Sizes: Story = {
+  args: {
+    fullWidth: false,
+  },
   render: (args) => (
     <div className="flex items-center gap-3">
-      <Button {...args} size="small">
-        Small
-      </Button>
-      <Button {...args} size="default">
-        Default
-      </Button>
+      {SIZE_OPTIONS.map((size) => (
+        <Button key={size} {...args} size={size}>
+          {size === 'default' ? 'Default size' : 'Small size'}
+        </Button>
+      ))}
     </div>
   ),
-  args: {
-    children: "Button",
-  },
   parameters: {
-    controls: {
-      exclude: ["children", "state"],
-    },
+    controls: { exclude: ['size', 'leadingIcon', 'children'] },
   },
 };
 
-export const InlineWidth: Story = {
-  name: "Inline Width",
+export const WidthModes: Story = {
   args: {
+    children: 'Inline width',
     fullWidth: false,
-    children: "Inline button",
   },
+  render: (args) => (
+    <div className="flex flex-col gap-3">
+      <Button {...args} data-full-width>
+        Full width via data attribute
+      </Button>
+      <Button {...args}>Inline width</Button>
+      <Button {...args} data-fixed-width>
+        Fixed width token
+      </Button>
+    </div>
+  ),
   parameters: {
-    controls: {
-      exclude: ["state"],
-    },
+    controls: { exclude: ['leadingIcon', 'children'] },
   },
 };

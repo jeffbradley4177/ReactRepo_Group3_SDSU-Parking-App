@@ -1,100 +1,196 @@
-import * as React from "react";
+import * as React from 'react';
 
-export type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "tertiary"
-  | "distructive";
-
-export type ButtonSize = "small" | "default";
-
-export type ButtonState = "default" | "pressed" | "active";
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'distructive';
+export type ButtonSize = 'small' | 'default';
+export type ButtonState = 'default' | 'pressed' | 'active';
 
 export interface ButtonProps
-  extends React.ComponentPropsWithoutRef<"button"> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'disabled' | 'className'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   state?: ButtonState;
+  fullWidth?: boolean;
   isLoading?: boolean;
+  leadingIcon?: React.ReactNode;
+  className?: string;
 }
 
-function cn(...classes: Array<string | null | false | undefined>) {
-  return classes.filter(Boolean).join(" ");
+// Class helpers
+
+type VariantProp = 'bg' | 'text' | 'ring' | 'icon';
+
+type VariantSpec = {
+  prefix: string; // maps to --button-<prefix>-<prop>-<state>
+} & Partial<Record<VariantProp, true>>;
+
+const VARIANTS: Record<ButtonVariant, VariantSpec> = {
+  primary: { prefix: 'primary', bg: true, text: true },
+  secondary: { prefix: 'secondary', bg: true, text: true },
+  outline: { prefix: 'outline', bg: true, text: true, ring: true },
+  distructive: { prefix: 'distructive', bg: true, text: true, ring: true, icon: true },
+};
+
+const VARIANT_PROPS: VariantProp[] = ['bg', 'text', 'ring', 'icon'];
+
+const VAR_SUFFIX: Record<VariantProp, string> = {
+  bg: 'bg',
+  text: 'text',
+  ring: 'border',
+  icon: 'icon',
+};
+
+function tokenClass(prop: VariantProp, v: VariantSpec, state: ButtonState, prefix = '') {
+  const cssVar = `var(--button-${v.prefix}-${VAR_SUFFIX[prop]}-${state})`;
+
+  if (prop === 'icon') {
+    return `${prefix}[&_[data-slot=icon]]:text-[${cssVar}]`;
+  }
+
+  const utility = prop === 'bg' ? 'bg' : prop === 'text' ? 'text' : 'ring';
+
+  return `${prefix}${utility}-[${cssVar}]`;
 }
 
-const baseClass =
-  "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-60";
+function buildByVariant(specs: Record<ButtonVariant, VariantSpec>) {
+  const uiStates: Array<{ key: ButtonState; prefix: string }> = [
+    { key: 'default', prefix: '' },
+    { key: 'pressed', prefix: 'hover:' },
+    { key: 'active', prefix: 'active:' },
+  ];
 
-const sizeClassMap: Record<ButtonSize, string> = {
-  default: "h-10 px-4 py-2 text-sm",
-  small: "h-9 px-3 text-xs",
-};
+  const out = {} as Record<ButtonVariant, string>;
 
-const variantClassMap: Record<ButtonVariant, string> = {
-  primary:
-    "bg-blue-600 text-white shadow-sm hover:bg-blue-500 focus-visible:outline-blue-600",
-  secondary:
-    "bg-slate-200 text-slate-900 shadow-sm hover:bg-slate-300 focus-visible:outline-slate-400",
-  tertiary:
-    "bg-transparent text-blue-600 hover:bg-blue-50 focus-visible:outline-blue-400",
-  distructive:
-    "bg-rose-600 text-white shadow-sm hover:bg-rose-500 focus-visible:outline-rose-600",
-};
+  (Object.keys(specs) as ButtonVariant[]).forEach((name) => {
+    const v = specs[name];
+    const classes: string[] = [];
 
-const stateClassMap: Record<ButtonState, string> = {
-  default: "",
-  pressed: "translate-y-[1px] shadow-inner",
-  active: "ring-2 ring-offset-2 ring-blue-500",
-};
+    VARIANT_PROPS.forEach((prop) => {
+      if (!v[prop]) return;
+
+      uiStates.forEach(({ key, prefix }) => {
+        if (prop === 'ring' && key === 'default') classes.push('ring-1', 'ring-inset');
+        classes.push(tokenClass(prop, v, key, prefix));
+      });
+    });
+
+    out[name] = classes.join(' ');
+  });
+
+  return out;
+}
+
+function buildByVariantState(specs: Record<ButtonVariant, VariantSpec>) {
+  const dataStates: Array<{ key: 'pressed' | 'active'; prefix: string }> = [
+    { key: 'pressed', prefix: 'data-[state=pressed]:' },
+    { key: 'active', prefix: 'data-[state=active]:' },
+  ];
+
+  const out = {} as Record<ButtonVariant, Record<ButtonState, string>>;
+  (Object.keys(specs) as ButtonVariant[]).forEach((name) => {
+    const v = specs[name];
+    const stateMap: Record<ButtonState, string> = { default: '', pressed: '', active: '' };
+
+    VARIANT_PROPS.forEach((prop) => {
+      if (!v[prop]) return;
+      dataStates.forEach(({ key, prefix }) => {
+        const bits: string[] = [];
+        if (prop === 'ring') bits.push(`${prefix}ring-1`, `${prefix}ring-inset`);
+        const addition = [...bits, tokenClass(prop, v, key, prefix)].join(' ');
+        stateMap[key] = [stateMap[key], addition].filter(Boolean).join(' ');
+      });
+    });
+
+    out[name] = stateMap;
+  });
+
+  return out;
+}
+
+const byVariant = buildByVariant(VARIANTS);
+const byVariantState = buildByVariantState(VARIANTS);
+
+// Component
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = "primary",
-      size = "default",
-      state = "default",
-      type = "button",
+      variant = 'primary',
+      size = 'default',
+      state = 'default',
+      type = 'button',
+      fullWidth = true,
       disabled = false,
       isLoading = false,
-      className,
       children,
+      leadingIcon,
+      className = '',
       ...rest
     },
-    ref
+    ref,
   ) => {
-    const isDisabled = disabled || isLoading;
-    const buttonClassName = cn(
-      baseClass,
-      sizeClassMap[size],
-      variantClassMap[variant],
-      stateClassMap[state],
-      isDisabled && "cursor-not-allowed",
-      className
-    );
+    const baseClass = [
+      'inline-flex items-center justify-center select-none',
+      'rounded-[var(--button-radius-default)]',
+      'px-[var(--button-padding-inline-default)]',
+      'py-[var(--button-padding-block-default)]',
+      'gap-[var(--button-gap-default)]',
+      'text-[length:var(--button-font-size)]',
+      'font-[var(--button-font-weight)]',
+      'focus:outline-none',
+      'focus-visible:ring-[color:var(--border-color-focus)]',
+      'focus-visible:ring-[length:var(--focus-ring-width)]',
+      'focus-visible:ring-offset-[length:var(--focus-ring-offset)]',
+      'disabled:cursor-not-allowed disabled:opacity-50',
+      isLoading ? 'relative' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const sizeClass: Record<ButtonSize, string> = {
+      small: 'h-[var(--button-height-sm)] text-[length:var(--text-size-button)]',
+      default: 'h-[var(--button-height-md)] text-[length:var(--text-size-button)]',
+    }[size];
+
+    const variantClass = byVariant[variant];
+    const forcedStateClass = byVariantState[variant][state];
+
+    // compute width using caller’s data-* or your prop
+    const widthClass = (rest as Record<string, unknown>)['data-fixed-width']
+      ? 'w-[274.667px]'
+      : ((rest as Record<string, unknown>)['data-full-width'] ?? fullWidth)
+        ? 'w-full'
+        : '';
+
+    // merge caller’s className into your classes
+    const classes = [baseClass, sizeClass, variantClass, forcedStateClass, widthClass, className]
+      .filter(Boolean)
+      .join(' ');
 
     return (
       <button
         ref={ref}
-        type={type}
-        disabled={isDisabled}
-        aria-busy={isLoading || undefined}
-        data-variant={variant}
-        data-size={size}
-        data-state={state}
-        className={buttonClassName}
         {...rest}
+        type={type}
+        disabled={disabled || isLoading}
+        aria-busy={isLoading}
+        data-state={state !== 'default' ? state : undefined}
+        className={classes}
       >
-        {isLoading ? (
-          <span className="inline-flex items-center gap-2">
-            <span className="h-3 w-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
-            Loading...
+        {isLoading && (
+          <span aria-hidden className="absolute inset-0 grid place-items-center">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
           </span>
-        ) : (
-          children
         )}
+
+        {leadingIcon && !isLoading ? (
+          <span aria-hidden data-slot="icon" className="mr-2 inline-flex">
+            {leadingIcon}
+          </span>
+        ) : null}
+
+        <span className={isLoading ? 'opacity-0' : ''}>{children}</span>
       </button>
     );
-  }
+  },
 );
-
-Button.displayName = "Button";
+Button.displayName = 'Button';

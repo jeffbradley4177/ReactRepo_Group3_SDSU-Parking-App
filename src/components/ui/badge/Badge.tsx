@@ -1,69 +1,81 @@
-import type { ReactNode } from "react";
+import * as React from 'react';
 
-export interface ComponentTemplateProps {
-  title?: string;
-  description?: string;
-  actions?: ReactNode;
-  children?: ReactNode;
-  /**
-   * Optional className lets callers extend styling while keeping Tailwind tree-shaking happy.
-   */
-  className?: string;
+export type BadgeVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'alert'
+  | 'info'
+  | 'navy'
+  | 'orange'
+  | 'pink'
+  | 'purple'
+  | 'red'
+  | 'sand'
+  | 'teal'
+  | 'neutral'
+  | 'green'
+  | 'indigo'
+  | 'yellow';
+
+export interface BadgeProps extends React.ComponentPropsWithoutRef<'span'> {
+  variant?: BadgeVariant;
+  leading?: React.ReactNode;
 }
 
-/**
- * ComponentTemplate provides a Tailwind-ready starting point for new UI components.
- * Copy, rename, and expand it to match your use case.
- */
-export function ComponentTemplate({
-  title = "Component title",
-  description = "Use this template as a baseline and replace the content.",
-  actions,
-  children,
-  className = "",
-}: ComponentTemplateProps) {
-  const baseClass =
-    "rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition dark:border-slate-800 dark:bg-slate-900";
-  // Merge default Tailwind surface styling with any caller overrides.
-  const containerClass = className ? `${baseClass} ${className}` : baseClass;
+const variantClasses: Record<BadgeVariant, string> = {
+  primary: 'bg-[var(--badge-primary-bg)] text-[var(--badge-primary-text)]',
+  secondary: 'bg-[var(--badge-secondary-bg)] text-[var(--badge-secondary-text)]',
+  success: 'bg-[var(--badge-success-bg-default)] text-[var(--badge-success-text-default)]',
+  warning: 'bg-[var(--badge-warning-bg-default)] text-[var(--badge-warning-text-default)]',
+  error: 'bg-[var(--badge-error-bg-default)] text-[var(--badge-error-text-default)]',
+  alert: 'bg-[var(--badge-alert-bg-default)] text-[var(--badge-alert-text-default)]',
+  info: 'bg-[var(--badge-info-bg-default)] text-[var(--badge-info-text-default)]',
+  navy: 'bg-[var(--badge-navy-bg-default)] text-[var(--badge-navy-text-default)]',
+  orange: 'bg-[var(--badge-orange-bg-default)] text-[var(--badge-orange-text-default)]',
+  pink: 'bg-[var(--badge-pink-bg-default)] text-[var(--badge-pink-text-default)]',
+  purple: 'bg-[var(--badge-purple-bg-default)] text-[var(--badge-purple-text-default)]',
+  red: 'bg-[var(--badge-red-bg-default)] text-[var(--badge-red-text-default)]',
+  sand: 'bg-[var(--badge-sand-bg-default)] text-[var(--badge-sand-text-default)]',
+  teal: 'bg-[var(--badge-teal-bg-default)] text-[var(--badge-teal-text-default)]',
+  neutral: 'bg-[var(--badge-neutral-bg-default)] text-[var(--badge-neutral-text-default)]',
+  green: 'bg-[var(--badge-green-bg-default)] text-[var(--badge-green-text-default)]',
+  indigo: 'bg-[var(--badge-indigo-bg-default)] text-[var(--badge-indigo-text-default)]',
+  yellow: 'bg-[var(--badge-yellow-bg-default)] text-[var(--badge-yellow-text-default)]',
+};
 
-  return (
-    <section className={containerClass}>
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-            {title}
-          </h2>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-            {description}
-          </p>
-        </div>
-        {actions ?? (
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ variant = 'primary', leading, children, className = '', ...props }, ref) => {
+    const baseClass = [
+      'inline-flex min-h-[var(--badge-height-default)] items-center justify-center',
+      'rounded-[var(--badge-radius-default)] px-[var(--badge-padding-inline-default)]',
+      'py-[var(--badge-padding-block-default)] gap-[var(--badge-gap-default)]',
+      'text-[length:var(--badge-font-size)] font-[var(--badge-font-weight)]',
+      'tracking-wide leading-none w-max',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const variantClass = variantClasses[variant] ?? variantClasses.primary;
+
+    const classes = [baseClass, variantClass, className].filter(Boolean).join(' ');
+
+    return (
+      <span ref={ref} className={classes} {...props}>
+        {leading ? (
+          <span
+            aria-hidden
+            className="inline-flex h-[var(--badge-icon-default)] w-[var(--badge-icon-default)] items-center justify-center"
           >
-            Action
-          </button>
-        )}
-      </header>
+            {leading}
+          </span>
+        ) : null}
+        <span>{children}</span>
+      </span>
+    );
+  },
+);
 
-      {children ? (
-        <div className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
-          {children}
-        </div>
-      ) : (
-        // Provide a friendly reminder until real content is supplied.
-        <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-          Replace this placeholder with your component implementation or pass{" "}
-          <code className="rounded bg-slate-800 px-1.5 py-0.5 font-mono text-xs text-slate-100">
-            children
-          </code>{" "}
-          to render custom content here.
-        </p>
-      )}
-    </section>
-  );
-}
-
-export default ComponentTemplate;
+Badge.displayName = 'Badge';

@@ -1,35 +1,35 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { ComponentTemplate } from "./ComponentTemplate";
+import { ComponentTemplate } from './ComponentTemplate';
 
 const meta = {
-  title: "UI/Component Template",
+  title: 'UI/Component Template',
   component: ComponentTemplate,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
   args: {
-    variant: "surface",
-    padding: "md",
-    radius: "md",
-    shadow: "sm",
+    variant: 'surface',
+    padding: 'md',
+    radius: 'md',
+    shadow: 'sm',
   },
   argTypes: {
     variant: {
-      control: "select",
-      options: ["surface", "muted", "outline", "ghost"],
+      control: 'select',
+      options: ['surface', 'muted', 'outline', 'ghost'],
     },
     padding: {
-      control: "inline-radio",
-      options: ["none", "xs", "sm", "md", "lg"],
+      control: 'inline-radio',
+      options: ['none', 'xs', 'sm', 'md', 'lg'],
     },
     radius: {
-      control: "inline-radio",
-      options: ["none", "sm", "md", "lg", "full"],
+      control: 'inline-radio',
+      options: ['none', 'sm', 'md', 'lg', 'full'],
     },
     shadow: {
-      control: "inline-radio",
-      options: ["none", "sm", "md"],
+      control: 'inline-radio',
+      options: ['none', 'sm', 'md'],
     },
     as: {
       control: false,
@@ -49,13 +49,13 @@ export const Default: Story = {
         <span>Status</span>
       </div>
     ),
-    role: "status",
+    role: 'status',
   },
 };
 
 export const WithCustomStyles: Story = {
   args: {
-    className: "max-w-xs bg-slate-900 text-white",
+    className: 'max-w-xs bg-slate-900 text-white',
     // Demonstrate overriding the base styles with custom utilities.
     children: (
       <button
@@ -69,16 +69,11 @@ export const WithCustomStyles: Story = {
 };
 
 export const VariantsShowcase: Story = {
-  name: "Variant Gallery",
+  name: 'Variant Gallery',
   render: (args) => (
     <div className="grid gap-4">
-      {(["surface", "muted", "outline", "ghost"] as const).map((variant) => (
-        <ComponentTemplate
-          key={variant}
-          {...args}
-          variant={variant}
-          className="max-w-sm"
-        >
+      {(['surface', 'muted', 'outline', 'ghost'] as const).map((variant) => (
+        <ComponentTemplate key={variant} {...args} variant={variant} className="max-w-sm">
           <div className="flex items-center justify-between text-sm font-medium capitalize">
             <span>{variant}</span>
             <span className="text-xs font-normal text-slate-500">
@@ -91,39 +86,35 @@ export const VariantsShowcase: Story = {
   ),
   parameters: {
     controls: {
-      exclude: ["variant", "children"],
+      exclude: ['variant', 'children'],
     },
   },
   args: {
     children: (
-      <p className="text-sm text-slate-600">
-        Polymorphic surface wrapper for quick layouts.
-      </p>
+      <p className="text-sm text-slate-600">Polymorphic surface wrapper for quick layouts.</p>
     ),
   },
 };
 
 export const PolymorphicArticle: Story = {
-  name: "Polymorphic Example",
+  name: 'Polymorphic Example',
   args: {
-    as: "article",
-    id: "component-template-article",
+    as: 'article',
+    id: 'component-template-article',
     children: (
       <div className="space-y-2 text-sm text-slate-700">
-        <h2 className="text-base font-semibold text-slate-900">
-          Custom Element Rendering
-        </h2>
+        <h2 className="text-base font-semibold text-slate-900">Custom Element Rendering</h2>
         <p>
-          The component forwards refs and props to whichever semantic element
-          you choose via the `as` prop.
+          The component forwards refs and props to whichever semantic element you choose via the
+          `as` prop.
         </p>
       </div>
     ),
-    shadow: "md",
+    shadow: 'md',
   },
   parameters: {
     controls: {
-      exclude: ["children"],
+      exclude: ['children'],
     },
   },
 };

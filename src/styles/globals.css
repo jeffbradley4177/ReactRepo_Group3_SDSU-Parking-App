@@ -1,8 +1,4 @@
-@import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import 'tailwindcss';
 
 :root {
   /* Primative */
@@ -575,7 +571,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
+    --background: #ffffff;
     --foreground: #ededed;
   }
 }
@@ -585,4 +581,3 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
